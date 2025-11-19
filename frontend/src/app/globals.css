@@ -1,0 +1,154 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Option 1: Deep Navy & Emerald - Professional, Trustworthy, Growth-Oriented */
+
+:root {
+  /* Primary Colors */
+  --color-primary: #0F172A;
+  --color-primary-light: #1E293B;
+  --color-primary-dark: #020617;
+  
+  /* Accent Colors */
+  --color-accent: #059669;
+  --color-accent-light: #10B981;
+  --color-accent-dark: #047857;
+  
+  /* Info Color */
+  --color-info: #0EA5E9;
+  
+  /* Semantic Colors */
+  --color-success: #059669;
+  --color-warning: #F59E0B;
+  --color-error: #DC2626;
+  
+  /* Neutral Colors */
+  --color-background: #F8FAFC;
+  --color-surface: #FFFFFF;
+  --color-border: #E2E8F0;
+  --color-text-primary: #0F172A;
+  --color-text-secondary: #475569;
+  --color-text-muted: #94A3B8;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: #0F172A;
+    --color-surface: #1E293B;
+    --color-border: #334155;
+    --color-text-primary: #F8FAFC;
+    --color-text-secondary: #CBD5E1;
+    --color-text-muted: #64748B;
+  }
+}
+
+body {
+  color: var(--color-text-primary);
+  background: var(--color-background);
+  font-family: var(--font-inter), Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Component Styles */
+
+@layer components {
+  /* Buttons */
+  .btn-primary {
+    @apply bg-primary-900 text-white px-6 py-3 rounded-lg font-medium 
+           hover:bg-primary-800 active:scale-[0.98] 
+           transition-all duration-200 shadow-soft hover:shadow-medium
+           focus:outline-none focus:ring-2 focus:ring-primary-900 focus:ring-offset-2;
+  }
+  
+  .btn-accent {
+    @apply bg-accent-600 text-white px-6 py-3 rounded-lg font-medium 
+           hover:bg-accent-700 active:scale-[0.98] 
+           transition-all duration-200 shadow-soft hover:shadow-medium
+           focus:outline-none focus:ring-2 focus:ring-accent-600 focus:ring-offset-2;
+  }
+  
+  .btn-outline {
+    @apply border-2 border-primary-900 text-primary-900 px-6 py-3 rounded-lg font-medium 
+           hover:bg-primary-900 hover:text-white active:scale-[0.98] 
+           transition-all duration-200
+           focus:outline-none focus:ring-2 focus:ring-primary-900 focus:ring-offset-2;
+  }
+  
+  .btn-secondary {
+    @apply bg-white text-primary-900 px-6 py-3 rounded-lg font-medium border border-border
+           hover:bg-primary-50 active:scale-[0.98] 
+           transition-all duration-200 shadow-soft hover:shadow-medium
+           focus:outline-none focus:ring-2 focus:ring-primary-900 focus:ring-offset-2;
+  }
+
+  /* Cards */
+  .card {
+    @apply bg-surface rounded-xl border border-border p-6 
+           shadow-soft hover:shadow-medium transition-all duration-200;
+  }
+  
+  .card-interactive {
+    @apply card cursor-pointer hover:border-primary-300 hover:-translate-y-1;
+  }
+
+  /* Form Inputs */
+  .input {
+    @apply w-full px-4 py-3 rounded-lg border border-border bg-surface
+           text-primary-900 placeholder-primary-400
+           focus:outline-none focus:ring-2 focus:ring-accent-600 focus:border-transparent
+           transition-all duration-200;
+  }
+  
+  .label {
+    @apply block text-sm font-medium text-primary-900 mb-2;
+  }
+
+  /* Status Badges */
+  .badge-pending {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium
+           bg-warning-100 text-warning-800;
+  }
+  
+  .badge-shortlisted {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium
+           bg-accent-100 text-accent-800;
+  }
+  
+  .badge-rejected {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium
+           bg-error-100 text-error-800;
+  }
+  
+  .badge-completed {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium
+           bg-info-100 text-info-800;
+  }
+
+  /* Navigation */
+  .nav-link {
+    @apply inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium
+           transition-colors duration-200;
+  }
+  
+  .nav-link-active {
+    @apply nav-link border-accent-600 text-primary-900;
+  }
+  
+  .nav-link-inactive {
+    @apply nav-link border-transparent text-primary-600 
+           hover:border-primary-300 hover:text-primary-900;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .animate-in {
+    animation: fadeIn 0.3s ease-in-out;
+  }
+}
+
