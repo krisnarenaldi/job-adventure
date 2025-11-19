@@ -6,11 +6,11 @@ uvicorn[standard]==0.24.0
 python-multipart==0.0.6
 
 # Database
-# sqlalchemy==2.0.23
-# asyncpg==0.29.0
-# alembic==1.12.1
-# psycopg2-binary==2.9.9
-# pgvector==0.2.4
+sqlalchemy==2.0.23
+asyncpg==0.29.0
+alembic==1.12.1
+psycopg2-binary==2.9.9
+pgvector==0.2.4
 
 # Redis
 redis==5.0.1
