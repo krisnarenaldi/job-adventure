@@ -5,7 +5,7 @@ from fastapi.security import HTTPBearer
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.db.session import get_db
 from app.core.config import settings
-from app.core.security import create_access_token
+from app.core.security import create_access_token, verify_password, get_password_hash
 from app.core.deps import get_current_active_user
 from app.repositories.user import UserRepository
 from app.repositories.company import CompanyRepository
@@ -14,7 +14,8 @@ from app.schemas.auth import (
     LoginResponse, 
     UserCreate, 
     UserResponse,
-    Token
+    Token,
+    PasswordChangeRequest
 )
 from app.models.user import User
 
@@ -141,3 +142,38 @@ async def verify_token_endpoint(
     Verify if token is valid
     """
     return {"valid": True, "user_id": str(current_user.id), "role": current_user.role}
+
+
+@router.post("/change-password")
+async def change_password(
+    password_data: PasswordChangeRequest,
+    current_user: User = Depends(get_current_active_user),
+    db: AsyncSession = Depends(get_db)
+) -> Any:
+    """
+    Allow authenticated users to change their password
+    """
+    # Verify current password
+    if not verify_password(password_data.current_password, current_user.hashed_password):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Current password is incorrect"
+        )
+    
+    if password_data.current_password == password_data.new_password:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="New password must be different from the current password"
+        )
+    
+    user_repo = UserRepository(db)
+    hashed_new_password = get_password_hash(password_data.new_password)
+    updated = await user_repo.update_password(current_user.id, hashed_new_password)
+    
+    if not updated:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to update password"
+        )
+    
+    return {"message": "Password updated successfully"}

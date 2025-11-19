@@ -3,6 +3,7 @@ from pydantic import BaseModel, EmailStr, field_validator, ConfigDict
 from typing import Optional
 from app.models.user import UserRole
 import uuid
+import re
 
 
 class UserBase(BaseModel):
@@ -21,6 +22,12 @@ class UserCreate(UserBase):
     def validate_password(cls, v):
         if len(v) < 8:
             raise ValueError('Password must be at least 8 characters long')
+        if not re.search(r'[A-Za-z]', v):
+            raise ValueError('Password must include at least one letter')
+        if not re.search(r'\d', v):
+            raise ValueError('Password must include at least one number')
+        if not re.search(r'[^A-Za-z0-9]', v):
+            raise ValueError('Password must include at least one special character')
         return v
 
     model_config = ConfigDict(from_attributes=True)
@@ -64,3 +71,20 @@ class LoginResponse(BaseModel):
     access_token: str
     token_type: str
     user: UserResponse
+
+
+class PasswordChangeRequest(BaseModel):
+    current_password: str
+    new_password: str
+    
+    @field_validator('new_password')
+    def validate_new_password(cls, v):
+        if len(v) < 8:
+            raise ValueError('Password must be at least 8 characters long')
+        if not re.search(r'[A-Za-z]', v):
+            raise ValueError('Password must include at least one letter')
+        if not re.search(r'\d', v):
+            raise ValueError('Password must include at least one number')
+        if not re.search(r'[^A-Za-z0-9]', v):
+            raise ValueError('Password must include at least one special character')
+        return v

@@ -87,15 +87,13 @@ class UserRepository(BaseRepository[User]):
         if not user:
             return None
         
-         # 🔍 DEBUG: Log the values
-        print(f"Plain password length: {len(password)}")
-        print(f"Plain password (first 20 chars): {password[:20]}")
-        print(f"Hash length: {len(user.hashed_password)}")
-        print(f"Hash (first 20 chars): {user.hashed_password[:20]}")
-        
         if not verify_password(password, user.hashed_password):
             return None
-        #if user.is_active != "true":
         if not user.is_active:
             return None
         return user
+
+    async def update_password(self, user_id: uuid.UUID, hashed_password: str) -> bool:
+        """Update a user's password"""
+        updated_user = await self.update(user_id, {"hashed_password": hashed_password})
+        return updated_user is not None
