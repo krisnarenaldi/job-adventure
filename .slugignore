@@ -1,0 +1,25 @@
+# Exclude unnecessary files to save disk space
+*.md
+*.txt
+!requirements.txt
+.git
+.github
+.vscode
+.idea
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache
+.coverage
+htmlcov
+dist
+build
+*.egg-info
+.env.example
+tests/
+docs/
+frontend/
+*.log
+.DS_Store
+

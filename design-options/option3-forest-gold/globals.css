@@ -1,0 +1,156 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Option 3: Forest Green & Gold - Established, Premium, Corporate */
+
+:root {
+  /* Primary Colors */
+  --color-primary: #065F46;
+  --color-primary-light: #047857;
+  --color-primary-dark: #064E3B;
+  
+  /* Accent Colors */
+  --color-accent: #D97706;
+  --color-accent-light: #F59E0B;
+  --color-accent-dark: #B45309;
+  
+  /* Secondary Color */
+  --color-secondary: #0D9488;
+  
+  /* Semantic Colors */
+  --color-success: #059669;
+  --color-warning: #F59E0B;
+  --color-error: #DC2626;
+  --color-info: #0891B2;
+  
+  /* Neutral Colors */
+  --color-background: #F9FAFB;
+  --color-surface: #FFFFFF;
+  --color-border: #E5E7EB;
+  --color-text-primary: #111827;
+  --color-text-secondary: #4B5563;
+  --color-text-muted: #9CA3AF;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: #111827;
+    --color-surface: #1F2937;
+    --color-border: #374151;
+    --color-text-primary: #F9FAFB;
+    --color-text-secondary: #D1D5DB;
+    --color-text-muted: #6B7280;
+  }
+}
+
+body {
+  color: var(--color-text-primary);
+  background: var(--color-background);
+  font-family: var(--font-inter), Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary-800 text-white px-6 py-3 rounded-lg font-medium 
+           hover:bg-primary-700 active:scale-[0.98] 
+           transition-all duration-200 shadow-soft hover:shadow-medium
+           focus:outline-none focus:ring-2 focus:ring-primary-800 focus:ring-offset-2;
+  }
+  
+  .btn-accent {
+    @apply bg-accent-600 text-white px-6 py-3 rounded-lg font-medium 
+           hover:bg-accent-700 active:scale-[0.98] 
+           transition-all duration-200 shadow-soft hover:shadow-gold
+           focus:outline-none focus:ring-2 focus:ring-accent-600 focus:ring-offset-2;
+  }
+  
+  .btn-outline {
+    @apply border-2 border-primary-800 text-primary-800 px-6 py-3 rounded-lg font-medium 
+           hover:bg-primary-800 hover:text-white active:scale-[0.98] 
+           transition-all duration-200
+           focus:outline-none focus:ring-2 focus:ring-primary-800 focus:ring-offset-2;
+  }
+  
+  .btn-secondary {
+    @apply bg-white text-primary-800 px-6 py-3 rounded-lg font-medium border border-border
+           hover:bg-primary-50 active:scale-[0.98] 
+           transition-all duration-200 shadow-soft hover:shadow-medium
+           focus:outline-none focus:ring-2 focus:ring-primary-800 focus:ring-offset-2;
+  }
+
+  .card {
+    @apply bg-surface rounded-xl border border-border p-6 
+           shadow-soft hover:shadow-medium transition-all duration-200;
+  }
+  
+  .card-interactive {
+    @apply card cursor-pointer hover:border-primary-300 hover:-translate-y-1;
+  }
+
+  .input {
+    @apply w-full px-4 py-3 rounded-lg border border-border bg-surface
+           text-gray-900 placeholder-gray-400
+           focus:outline-none focus:ring-2 focus:ring-primary-800 focus:border-transparent
+           transition-all duration-200;
+  }
+  
+  .label {
+    @apply block text-sm font-medium text-gray-900 mb-2;
+  }
+
+  .badge-pending {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium
+           bg-warning-100 text-warning-800;
+  }
+  
+  .badge-shortlisted {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium
+           bg-success-100 text-success-800;
+  }
+  
+  .badge-rejected {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium
+           bg-error-100 text-error-800;
+  }
+  
+  .badge-completed {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium
+           bg-info-100 text-info-800;
+  }
+
+  .nav-link {
+    @apply inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium
+           transition-colors duration-200;
+  }
+  
+  .nav-link-active {
+    @apply nav-link border-accent-600 text-gray-900;
+  }
+  
+  .nav-link-inactive {
+    @apply nav-link border-transparent text-gray-600 
+           hover:border-primary-300 hover:text-gray-900;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .animate-in {
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  .gradient-forest {
+    background: linear-gradient(135deg, #065F46 0%, #0D9488 100%);
+  }
+  
+  .gradient-gold {
+    background: linear-gradient(135deg, #D97706 0%, #F59E0B 100%);
+  }
+}
+

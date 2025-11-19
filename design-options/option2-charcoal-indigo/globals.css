@@ -1,0 +1,152 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Option 2: Charcoal & Indigo - Sophisticated, Tech-Forward, Premium */
+
+:root {
+  /* Primary Colors */
+  --color-primary: #1E293B;
+  --color-primary-light: #334155;
+  --color-primary-dark: #0F172A;
+  
+  /* Accent Colors */
+  --color-accent: #4F46E5;
+  --color-accent-light: #6366F1;
+  --color-accent-dark: #4338CA;
+  
+  /* Secondary Color */
+  --color-secondary: #7C3AED;
+  
+  /* Semantic Colors */
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --color-error: #DC2626;
+  --color-info: #3B82F6;
+  
+  /* Neutral Colors */
+  --color-background: #F1F5F9;
+  --color-surface: #FFFFFF;
+  --color-border: #CBD5E1;
+  --color-text-primary: #1E293B;
+  --color-text-secondary: #64748B;
+  --color-text-muted: #94A3B8;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: #0F172A;
+    --color-surface: #1E293B;
+    --color-border: #334155;
+    --color-text-primary: #F1F5F9;
+    --color-text-secondary: #CBD5E1;
+    --color-text-muted: #64748B;
+  }
+}
+
+body {
+  color: var(--color-text-primary);
+  background: var(--color-background);
+  font-family: var(--font-inter), Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-accent-600 text-white px-6 py-3 rounded-lg font-medium 
+           hover:bg-accent-700 active:scale-[0.98] 
+           transition-all duration-200 shadow-soft hover:shadow-glow
+           focus:outline-none focus:ring-2 focus:ring-accent-600 focus:ring-offset-2;
+  }
+  
+  .btn-accent {
+    @apply bg-secondary-600 text-white px-6 py-3 rounded-lg font-medium 
+           hover:bg-secondary-700 active:scale-[0.98] 
+           transition-all duration-200 shadow-soft hover:shadow-medium
+           focus:outline-none focus:ring-2 focus:ring-secondary-600 focus:ring-offset-2;
+  }
+  
+  .btn-outline {
+    @apply border-2 border-accent-600 text-accent-600 px-6 py-3 rounded-lg font-medium 
+           hover:bg-accent-600 hover:text-white active:scale-[0.98] 
+           transition-all duration-200
+           focus:outline-none focus:ring-2 focus:ring-accent-600 focus:ring-offset-2;
+  }
+  
+  .btn-secondary {
+    @apply bg-white text-primary-800 px-6 py-3 rounded-lg font-medium border border-border
+           hover:bg-primary-50 active:scale-[0.98] 
+           transition-all duration-200 shadow-soft hover:shadow-medium
+           focus:outline-none focus:ring-2 focus:ring-primary-800 focus:ring-offset-2;
+  }
+
+  .card {
+    @apply bg-surface rounded-xl border border-border p-6 
+           shadow-soft hover:shadow-medium transition-all duration-200;
+  }
+  
+  .card-interactive {
+    @apply card cursor-pointer hover:border-accent-300 hover:-translate-y-1;
+  }
+
+  .input {
+    @apply w-full px-4 py-3 rounded-lg border border-border bg-surface
+           text-primary-800 placeholder-primary-400
+           focus:outline-none focus:ring-2 focus:ring-accent-600 focus:border-transparent
+           transition-all duration-200;
+  }
+  
+  .label {
+    @apply block text-sm font-medium text-primary-800 mb-2;
+  }
+
+  .badge-pending {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium
+           bg-warning-100 text-warning-800;
+  }
+  
+  .badge-shortlisted {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium
+           bg-success-100 text-success-800;
+  }
+  
+  .badge-rejected {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium
+           bg-error-100 text-error-800;
+  }
+  
+  .badge-completed {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium
+           bg-info-100 text-info-800;
+  }
+
+  .nav-link {
+    @apply inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium
+           transition-colors duration-200;
+  }
+  
+  .nav-link-active {
+    @apply nav-link border-accent-600 text-primary-800;
+  }
+  
+  .nav-link-inactive {
+    @apply nav-link border-transparent text-primary-500 
+           hover:border-accent-300 hover:text-primary-800;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .animate-in {
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  .gradient-indigo {
+    background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+  }
+}
+

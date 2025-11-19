@@ -1,0 +1,36 @@
+# FastAPI and web framework
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+python-multipart==0.0.6
+
+# Database
+sqlalchemy==2.0.23
+asyncpg==0.29.0
+alembic==1.12.1
+psycopg2-binary==2.9.9
+
+# Redis
+redis==5.0.1
+aioredis==2.0.1
+
+# Authentication and security
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+
+# Configuration and environment
+pydantic[email]==2.5.0
+pydantic-settings==2.1.0
+python-dotenv==1.0.0
+
+# Basic ML dependencies (without spaCy for now)
+sentence-transformers==2.2.2
+numpy==1.24.4
+
+# Document processing
+PyPDF2==3.0.1
+python-docx==1.1.0
+
+# Utilities
+httpx==0.25.2
+python-dateutil==2.8.2
+psutil==5.9.6
