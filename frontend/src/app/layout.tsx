@@ -11,7 +11,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Resume Job Matching",
-  description: "AI-powered resume and job description matching system",
+  description: "Simple AI-powered resume and job description matching system",
   icons: {
     icon: [
       { url: "/favicon/favicon-16x16.png", sizes: "16x16", type: "image/png" },
