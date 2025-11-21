@@ -53,7 +53,7 @@ python3 -c "import secrets; print(secrets.token_urlsafe(32))"
 # 2. New Project → Import "job-match"
 # 3. Root Directory → "frontend"
 # 4. Add Environment Variable:
-#    NEXT_PUBLIC_API_URL = https://your-backend.up.railway.app
+#    NEXT_PUBLIC_API_URL = https://job-adventure.onrender.com
 # 5. Deploy
 ```
 

@@ -11,7 +11,7 @@ import re
 from datetime import datetime, timedelta
 import hashlib
 import redis.asyncio as redis
-from anthropic import AsyncAnthropic
+# from anthropic import AsyncAnthropic
 from app.core.config import settings
 from app.core.exceptions import ExplanationServiceError, ExternalServiceError, RateLimitError
 from app.core.error_handler import error_handler, RetryHandler, explanation_circuit_breaker, GracefulDegradation
@@ -38,23 +38,23 @@ class ExplanationService:
         """Initialize the Anthropic client and Redis connection."""
         try:
             # Initialize Anthropic client
-            logger.info(f"Attempting to initialize Anthropic client. API key present: {bool(settings.ANTHROPIC_API_KEY)}")
-            if settings.ANTHROPIC_API_KEY:
-                try:
-                    self._anthropic_client = AsyncAnthropic(
-                        api_key=settings.ANTHROPIC_API_KEY
-                    )
-                    # Test the client by checking if it has the messages attribute
-                    if not hasattr(self._anthropic_client, 'messages'):
-                        logger.error("Anthropic client missing 'messages' attribute. Check anthropic package version.")
-                        self._anthropic_client = None
-                    else:
-                        logger.info("Anthropic client initialized successfully")
-                except Exception as e:
-                    logger.error(f"Failed to initialize Anthropic client: {e}")
-                    self._anthropic_client = None
-            else:
-                logger.warning("ANTHROPIC_API_KEY not provided, explanations will use fallback templates")
+            # logger.info(f"Attempting to initialize Anthropic client. API key present: {bool(settings.ANTHROPIC_API_KEY)}")
+            # if settings.ANTHROPIC_API_KEY:
+            #     try:
+            #         self._anthropic_client = AsyncAnthropic(
+            #             api_key=settings.ANTHROPIC_API_KEY
+            #         )
+            #         # Test the client by checking if it has the messages attribute
+            #         if not hasattr(self._anthropic_client, 'messages'):
+            #             logger.error("Anthropic client missing 'messages' attribute. Check anthropic package version.")
+            #             self._anthropic_client = None
+            #         else:
+            #             logger.info("Anthropic client initialized successfully")
+            #     except Exception as e:
+            #         logger.error(f"Failed to initialize Anthropic client: {e}")
+            #         self._anthropic_client = None
+            # else:
+            #     logger.warning("ANTHROPIC_API_KEY not provided, explanations will use fallback templates")
             
             # Initialize Redis connection for caching
             try:
