@@ -1,4 +1,6 @@
 import logging
+import os
+import sys
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, HTTPException, Request
@@ -23,6 +25,15 @@ from app.middleware.session_middleware import SessionMiddleware
 configure_app_logging()
 logger = get_logger(__name__)
 
+# Log startup information
+logger.info("=" * 80)
+logger.info("STARTING APPLICATION")
+logger.info(f"Python version: {sys.version}")
+logger.info(f"Working directory: {os.getcwd()}")
+logger.info(f"PORT environment variable: {os.environ.get('PORT', 'NOT SET')}")
+logger.info(f"DATABASE_URL present: {bool(os.environ.get('DATABASE_URL'))}")
+logger.info("=" * 80)
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -38,34 +49,77 @@ async def lifespan(app: FastAPI):
         logger.error(f"Failed to connect to Redis: {e}")
         # Don't fail startup, caching will be disabled
 
-    # Initialize services
+    # Initialize services (non-blocking - allow app to start even if services fail)
     try:
         from app.services.embedding_service import embedding_service
-        from app.services.explanation_service import explanation_service
-        from app.services.monitoring_service import monitoring_service
-
-        await embedding_service.initialize()
-        await explanation_service.initialize()
-        await monitoring_service.start_monitoring()
-
-        logger.info("All services initialized successfully")
+        logger.info("Embedding service imported")
     except Exception as e:
-        logger.error(f"Failed to initialize services: {e}")
-        # Don't fail startup, services will handle graceful degradation
+        logger.warning(f"Failed to import embedding service: {e}")
+
+    try:
+        from app.services.explanation_service import explanation_service
+        logger.info("Explanation service imported")
+    except Exception as e:
+        logger.warning(f"Failed to import explanation service: {e}")
+
+    try:
+        from app.services.monitoring_service import monitoring_service
+        logger.info("Monitoring service imported")
+    except Exception as e:
+        logger.warning(f"Failed to import monitoring service: {e}")
+
+    # Try to initialize services but don't block startup if they fail
+    try:
+        await embedding_service.initialize()
+        logger.info("Embedding service initialized")
+    except Exception as e:
+        logger.warning(f"Embedding service initialization failed: {e}")
+
+    try:
+        await explanation_service.initialize()
+        logger.info("Explanation service initialized")
+    except Exception as e:
+        logger.warning(f"Explanation service initialization failed: {e}")
+
+    try:
+        await monitoring_service.start_monitoring()
+        logger.info("Monitoring service started")
+    except Exception as e:
+        logger.warning(f"Monitoring service start failed: {e}")
+
+    logger.info("Application startup completed (services may have partial initialization)")</parameter>
 
     yield
 
     # Shutdown
     logger.info("Shutting down Resume Job Matching System")
 
+    # Graceful shutdown of services
     try:
         await embedding_service.close()
-        await explanation_service.close()
-        await monitoring_service.stop_monitoring()
-        await redis_manager.disconnect()
-        logger.info("All services closed successfully")
+        logger.info("Embedding service closed")
     except Exception as e:
-        logger.error(f"Error during shutdown: {e}")
+        logger.warning(f"Error closing embedding service: {e}")
+
+    try:
+        await explanation_service.close()
+        logger.info("Explanation service closed")
+    except Exception as e:
+        logger.warning(f"Error closing explanation service: {e}")
+
+    try:
+        await monitoring_service.stop_monitoring()
+        logger.info("Monitoring service stopped")
+    except Exception as e:
+        logger.warning(f"Error stopping monitoring service: {e}")
+
+    try:
+        await redis_manager.disconnect()
+        logger.info("Redis disconnected")
+    except Exception as e:
+        logger.warning(f"Error disconnecting Redis: {e}")
+
+    logger.info("Application shutdown completed")
 
 
 app = FastAPI(
@@ -196,7 +250,23 @@ async def general_exception_handler(request: Request, exc: Exception):
 app.include_router(api_router, prefix=settings.API_V1_STR)
 
 
+@app.get("/")
+async def root():
+    """Root endpoint"""
+    return {
+        "status": "online",
+        "service": "resume-job-matching",
+        "version": settings.VERSION,
+        "message": "API is running. Use /docs for API documentation."
+    }
+
+
 @app.get("/health")
 async def health_check():
     """Basic health check endpoint"""
     return {"status": "healthy", "service": "resume-job-matching"}
+
+
+# Log that the app is configured
+logger.info("FastAPI application configured successfully")
+logger.info(f"API routes mounted at: {settings.API_V1_STR}")
