@@ -39,7 +39,7 @@ export default function InterviewsPage() {
       }
 
       setInterviews(allInterviews);
-    } catch (err) {
+    } catch {
       setError("Failed to load interviews");
       setInterviews([]);
     }
@@ -50,7 +50,7 @@ export default function InterviewsPage() {
   const handleStatusUpdate = async (interviewId: string, newStatus: InterviewStatus) => {
     setUpdatingStatus(interviewId);
     setError(null);
-    
+
     const response = await apiClient.updateInterview(interviewId, { status: newStatus });
     if (response.error) {
       setError(response.error);
@@ -62,7 +62,7 @@ export default function InterviewsPage() {
         )
       );
     }
-    
+
     setUpdatingStatus(null);
   };
 
@@ -136,41 +136,37 @@ export default function InterviewsPage() {
       <div className="mb-6 flex flex-wrap gap-2">
         <button
           onClick={() => setStatusFilter("all")}
-          className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-            statusFilter === "all"
-              ? "bg-blue-600 text-white"
-              : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-          }`}
+          className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${statusFilter === "all"
+            ? "bg-blue-600 text-white"
+            : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+            }`}
         >
           All ({interviews.length})
         </button>
         <button
           onClick={() => setStatusFilter("scheduled")}
-          className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-            statusFilter === "scheduled"
-              ? "bg-blue-600 text-white"
-              : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-          }`}
+          className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${statusFilter === "scheduled"
+            ? "bg-blue-600 text-white"
+            : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+            }`}
         >
           Scheduled ({interviews.filter(i => i.status === "scheduled").length})
         </button>
         <button
           onClick={() => setStatusFilter("completed")}
-          className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-            statusFilter === "completed"
-              ? "bg-green-600 text-white"
-              : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-          }`}
+          className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${statusFilter === "completed"
+            ? "bg-green-600 text-white"
+            : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+            }`}
         >
           Completed ({interviews.filter(i => i.status === "completed").length})
         </button>
         <button
           onClick={() => setStatusFilter("cancelled")}
-          className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-            statusFilter === "cancelled"
-              ? "bg-red-600 text-white"
-              : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-          }`}
+          className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${statusFilter === "cancelled"
+            ? "bg-red-600 text-white"
+            : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+            }`}
         >
           Cancelled ({interviews.filter(i => i.status === "cancelled").length})
         </button>
@@ -227,10 +223,10 @@ export default function InterviewsPage() {
                           </span>
                         </div>
                         <p className="text-sm text-gray-500 mt-1">
-                          {new Date(interview.scheduled_time).toLocaleDateString('en-GB', { 
-                            day: '2-digit', 
-                            month: 'short', 
-                            year: 'numeric' 
+                          {new Date(interview.scheduled_time).toLocaleDateString('en-GB', {
+                            day: '2-digit',
+                            month: 'short',
+                            year: 'numeric'
                           })} at {new Date(interview.scheduled_time).toLocaleTimeString('en-US', {
                             hour: '2-digit',
                             minute: '2-digit'

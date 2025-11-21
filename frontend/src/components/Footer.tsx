@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 
@@ -57,7 +58,7 @@ export function Footer() {
                 className="text-sm text-primary-600 hover:text-primary-900 transition-colors"
               >
                 Saweria
-                
+
               </Link>
             </div>
           </div>
@@ -180,9 +181,12 @@ export function Footer() {
                 className="inline-block hover:opacity-80 transition-opacity"
                 aria-label="Support us on Saweria"
               >
-                <img
+                <Image
                   src="/saweria2.png"
                   alt="Support us on Saweria"
+                  width={0}
+                  height={0}
+                  sizes="100vw"
                   className="h-14 w-auto"
                 />
               </a>

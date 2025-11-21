@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { apiClient } from "@/lib/api";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { FileUpload } from "@/components/FileUpload";
+import Image from "next/image";
 
 export default function ContactPage() {
   const router = useRouter();
@@ -140,7 +141,7 @@ export default function ContactPage() {
             <h1 className="text-2xl font-bold text-gray-900">Contact Us</h1>
             <p className="mt-2 text-sm text-gray-600">
               Have a question or found an issue? Please fill out the form below
-              and we'll get back to you.
+              and we&apos;ll get back to you.
             </p>
           </div>
 
@@ -153,7 +154,7 @@ export default function ContactPage() {
           {success && (
             <div className="mb-6 bg-green-50 border border-green-200 rounded-md p-4">
               <div className="text-sm text-green-700">
-                Your message has been submitted successfully! We'll get back to
+                Your message has been submitted successfully! We&apos;ll get back to
                 you soon.
               </div>
             </div>
@@ -217,9 +218,11 @@ export default function ContactPage() {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
                       {previewUrl && (
-                        <img
+                        <Image
                           src={previewUrl}
                           alt="Preview"
+                          width={64}
+                          height={64}
                           className="h-16 w-16 object-cover rounded"
                         />
                       )}
