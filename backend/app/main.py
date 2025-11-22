@@ -52,18 +52,21 @@ async def lifespan(app: FastAPI):
     # Initialize services (non-blocking - allow app to start even if services fail)
     try:
         from app.services.embedding_service import embedding_service
+
         logger.info("Embedding service imported")
     except Exception as e:
         logger.warning(f"Failed to import embedding service: {e}")
 
     try:
         from app.services.explanation_service import explanation_service
+
         logger.info("Explanation service imported")
     except Exception as e:
         logger.warning(f"Failed to import explanation service: {e}")
 
     try:
         from app.services.monitoring_service import monitoring_service
+
         logger.info("Monitoring service imported")
     except Exception as e:
         logger.warning(f"Failed to import monitoring service: {e}")
@@ -87,7 +90,9 @@ async def lifespan(app: FastAPI):
     except Exception as e:
         logger.warning(f"Monitoring service start failed: {e}")
 
-    logger.info("Application startup completed (services may have partial initialization)")</parameter>
+    logger.info(
+        "Application startup completed (services may have partial initialization)"
+    )
 
     yield
 
@@ -257,7 +262,7 @@ async def root():
         "status": "online",
         "service": "resume-job-matching",
         "version": settings.VERSION,
-        "message": "API is running. Use /docs for API documentation."
+        "message": "API is running. Use /docs for API documentation.",
     }
 
 
