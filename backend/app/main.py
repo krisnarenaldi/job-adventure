@@ -134,23 +134,7 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# Set up CORS middleware
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-        "http://localhost:8000",
-        "http://127.0.0.1:3000",
-        "http://127.0.0.1:8000",
-        "https://job-adventure.vercel.app",
-        "https://job-adventure.onrender.com",
-    ],
-    allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
-    allow_headers=["*"],
-    expose_headers=["Content-Disposition"],
-    max_age=600,  # Cache preflight response for 10 minutes
-)
+
 
 # Add middleware (order matters - last added is executed first)
 app.add_middleware(LoggingMiddleware)
@@ -160,6 +144,17 @@ app.add_middleware(
     CacheMiddleware,
     cache_ttl=900,  # 15 minutes
     cacheable_paths=["/api/v1/analytics", "/api/v1/jobs", "/api/v1/resumes"],
+)
+
+# Set up CORS middleware (must be last added to be first executed)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=settings.ALLOWED_HOSTS,
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+    allow_headers=["*"],
+    expose_headers=["Content-Disposition"],
+    max_age=600,  # Cache preflight response for 10 minutes
 )
 
 

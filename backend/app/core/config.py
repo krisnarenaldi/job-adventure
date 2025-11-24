@@ -1,5 +1,5 @@
 import os
-from typing import List, Optional
+from typing import List, Optional, Union
 from pydantic import field_validator, ConfigDict
 from pydantic_settings import BaseSettings
 
@@ -41,12 +41,27 @@ class Settings(BaseSettings):
     UPLOAD_DIR: str = "uploads"
     
     # CORS
-    ALLOWED_HOSTS: List[str] = ["http://localhost:3000", "http://localhost:8000"]
+    ALLOWED_HOSTS: List[str] = [
+        "http://localhost:3000",
+        "http://localhost:8000",
+        "http://127.0.0.1:3000",
+        "http://127.0.0.1:8000",
+        "https://job-adventure.vercel.app",
+        "https://job-adventure.onrender.com",
+    ]
     
     # Logging
     LOG_LEVEL: str = "INFO"
     ENVIRONMENT: str = "development"
     
+    @field_validator("ALLOWED_HOSTS", mode='before')
+    def assemble_cors_origins(cls, v: Union[str, List[str]], info) -> List[str]:
+        if isinstance(v, str) and not v.startswith("["):
+            return [i.strip() for i in v.split(",")]
+        elif isinstance(v, (list, str)):
+            return v
+        raise ValueError(v)
+
     @field_validator("DATABASE_URL", mode='before')
     def assemble_db_connection(cls, v: Optional[str], info) -> str:
         # If DATABASE_URL provided, use it. Otherwise assemble from parts in info.data
